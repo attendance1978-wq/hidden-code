@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Agree or Disagree with Verification</title>
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f2f2f2;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    background: #fff;
+    padding: 30px;
+    width: 350px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+input[type="password"] {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.agree {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.disagree {
+    background-color: #f44336;
+    color: white;
+}
+
+#errorMsg {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>AGREE OR DISAGREE</h2>
+
+    <input type="password" id="passwordInput" placeholder="Enter password to proceed">
+    <div id="errorMsg"></div>
+
+    <button class="agree" id="agreeBtn" onclick="selectOption('Agree')" disabled>AGREE</button>
+    <button class="disagree" id="disagreeBtn" onclick="selectOption('Disagree')" disabled>DISAGREE</button>
+
+    <p id="result"></p>
+</div>
+
+<script>
+// ✅ Set your password here
+const PASSWORD = "2025-0000";  
+
+// ✅ Set your redirect link here
+const REDIRECT_LINK = "https://drive.google.com/drive/u/0/mobile/folders/1szNFTWR41Y0mKuP1BdBIYS8BqRTzyNhg?fbclid=IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPMjc1MjU0NjkyNTk4Mjc5AAEeuWmJmgRVyocXJDkV3xZL-vcs3bUnNpynIEMq8fqLCkfkxgDg5B9BOgo-e8Q_aem_a83oTQHrZPO_WE5Jt4YauQ";
+
+const passwordInput = document.getElementById("passwordInput");
+const agreeBtn = document.getElementById("agreeBtn");
+const disagreeBtn = document.getElementById("disagreeBtn");
+const errorMsg = document.getElementById("errorMsg");
+
+let selected = false;
+
+// Enable buttons only if password is correct
+passwordInput.addEventListener("input", function() {
+    if (passwordInput.value === PASSWORD) {
+        agreeBtn.disabled = false;
+        disagreeBtn.disabled = false;
+        errorMsg.innerText = "";
+    } else {
+        agreeBtn.disabled = true;
+        disagreeBtn.disabled = true;
+        if(passwordInput.value.length > 0) {
+            errorMsg.innerText = "Incorrect password";
+        } else {
+            errorMsg.innerText = "";
+        }
+    }
+});
+
+function selectOption(choice) {
+    if (selected) return; // allow only one selection
+    selected = true;
+
+    agreeBtn.disabled = true;
+    disagreeBtn.disabled = true;
+    passwordInput.disabled = true;
+
+    document.getElementById("result").innerText = "You selected: " + choice;
+
+    // Redirect after short delay (1 second)
+    setTimeout(function() {
+        window.location.href = REDIRECT_LINK;
+    }, 1000);
+}
+</script>
+
+</body>
+</html>
